@@ -2,14 +2,20 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import dotenv_values
 import mysql.connector
+import os
 
-config = dotenv_values(".env")
+config = {
+    **dotenv_values(".env"),
+    **os.environ,
+}
+
 connection_params = {
     'host': config['DB_HOST'],
+    'database': config['DB_NAME'],
     'user': config['DB_USER'],
     'password': config['DB_PASS'],
-    'database': config['DB_NAME']
 }
+
 db = mysql.connector.connect(**connection_params)
 
 app = Flask(__name__)
@@ -54,4 +60,3 @@ def tasks():
             except mysql.connector.errors.ProgrammingError as err:
                 print(err)
                 return {"status": "err"}
-        return jsonify([task.to_json() for task in tasks])
