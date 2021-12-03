@@ -30,7 +30,7 @@ function App() {
         if (!res.ok) throw new Error(res.statusText)
         return res.json()
       })
-      .then(() => setTaskLabel(''))
+      .then((task) => setTasks(prev => [...prev, task]))
       .catch(setError);
   };
 
