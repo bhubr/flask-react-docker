@@ -9,7 +9,7 @@ Dependencies:
 To install them manually:
 
 ```
-pip3 install mysql-connector-python python-dotenv flask
+pip3 install mysql-connector-python python-dotenv flask flask-cors
 ```
 
 ## Links
