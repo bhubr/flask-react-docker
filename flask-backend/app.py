@@ -24,15 +24,20 @@ def tasks():
     error = None
     if request.method == 'POST':
       query = "INSERT INTO `task` (`label`) VALUES (%s)"
-      params = (request.form['label'],)
+      label = request.form['label']
+      params = (label,)
       with db.cursor() as c:
           try:
             c.execute(query, params)
             db.commit()
+            id = c.lastrowid
+            return {
+              "id": id,
+              "label": label
+            }
           except mysql.connector.errors.ProgrammingError as err:
             print(err)
             return { "status": "err" }
-      return { "status": "ok" }
     else:
       query = "SELECT * FROM `task`"
       with db.cursor() as c:
