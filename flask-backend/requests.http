@@ -1,0 +1,7 @@
+### For use with Visual Studio Code's REST Client extension
+
+### Create task
+POST http://localhost:5000/api/tasks
+Content-Type: application/x-www-form-urlencoded
+
+label=Learn+Docker+Compose
