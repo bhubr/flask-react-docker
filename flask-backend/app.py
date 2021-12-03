@@ -10,6 +10,7 @@ connection_params = {
     'password': config['DB_PASS'],
     'database': config['DB_NAME']
 }
+print(config)
 db = mysql.connector.connect(**connection_params)
 
 app = Flask(__name__)

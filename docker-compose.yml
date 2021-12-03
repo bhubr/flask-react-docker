@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_USER=flaskapp
+      - "MYSQL_PASSWORD:${MYSQL_PASSWORD}"
+      - MYSQL_DATABASE=flaskapp
+  backend:
+    build: flask-backend
+    command: flask run
+    volumes:
+      - .:/code
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_USER=flaskapp
+      - "DB_PASS:${MYSQL_PASSWORD}"
+      - DB_NAME=flaskapp
+      - DB_HOST=db
+    depends_on:
+      - db
+  frontend:
+    build:
+      context: react-frontend
+      dockerfile: Dockerfile.env
+    command: yarn start
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - "REACT_APP_SERVER_URL=http://db:5000"
+    depends_on:
+      - backend
